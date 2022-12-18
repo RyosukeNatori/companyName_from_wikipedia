@@ -68,12 +68,17 @@ for (let i = 0; i < splittedUrls.length; i++) {
           const companyUrl = document.querySelector(
             '#mw-content-text > div.mw-parser-output > table.infobox.plainlist > tbody > tr > td > span > a.external.free'
           )?.href;
-          return [jaNames, escapeEnName, companyUrl];
+          const companyAliasName =
+            document.querySelector('#firstHeading > span')?.textContent ?? '';
+          return [jaNames, companyAliasName, escapeEnName, companyUrl];
         })
       )
-    ).filter(([jaNames, enName, companyUrl]) => companyUrl != undefined)
+    ).filter(
+      ([jaNames, companyAliasName, enName, companyUrl]) =>
+        companyUrl != undefined
+    )
   );
 }
 
 const csvString = companyNames.map((list) => list.join()).join('\n');
-writeFileSync('companyUrl.csv', csvString);
+writeFileSync('companyUrlPulsAlias.csv', csvString);
